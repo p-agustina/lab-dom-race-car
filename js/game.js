@@ -45,5 +45,25 @@ class Game {
 
         if (Math.random() > 0.98 && this.obstacles.length < 1) {
             this.obstacles.push(new Obstacle(this.gameScreen))
-    }
-}}
+        }   
+        if (this.obstacles.length) {
+            const obstacle = this.obstacles[0];
+            obstacle.move();
+            
+            if (obstacle.top > this.height) {
+                this.score++;
+                obstacle.element.remove();
+                this.obstacles.splice(0, 1);
+            }
+            if (this.obstacles.length && this.player.didCollide(obstacle)) {
+                this.lives--;
+                obstacle.element.remove();
+                this.obstacles.splice(0, 1);
+            }
+        }
+        if (this.lives <= 0) {
+            this.gameIsOver = true;
+        }
+}
+
+}
